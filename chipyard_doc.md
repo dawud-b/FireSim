@@ -18,7 +18,7 @@ riscv64-unknown-elf-gcc -static -specs=htif_nano.specs <FILE>.o -o <FILE>.riscv
 
 ---
 
-### [RTL Simulation](https://chipyard.readthedocs.io/en/stable/Simulation/Software-RTL-Simulation.html)
+### RTL Simulation
 
 To test a RISC-V file run:
 ```bash
@@ -45,6 +45,8 @@ make CONFIG=RocketPrefetchTemplate run-binary BINARY=~/chipyard/tests/NL_Calcs_8
 > 
 > make clean
 > ```
+
+More information on [the Chipyeard documentation](https://chipyard.readthedocs.io/en/stable/Simulation/Software-RTL-Simulation.html).
 
 -----
 
@@ -155,14 +157,21 @@ build_farm_hosts:
 - build farm host0
 - build_farm_host1
 - build_farm_host2
-...
+- build_farm_host3
+- build_farm_host4
+- build_farm_host5
+- build_farm_host6
+- build_farm_host7
+- build_farm_host8
+- build_farm_host9
+- build_farm_host10
 - build_farm_host11
 - build_farm_host12
 default_build_dir: /home/user/chipyard/sims/firesim/builds # Change this based on your chipyard directory
 ```
 -----
 
-#### Run FireSim
+#### Running FireSim
 
 If you haven't sourced the firesim enviornment yet do the [Initailization](#initialization) steps now.
 
