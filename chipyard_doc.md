@@ -94,7 +94,7 @@ If everything else is setup skip to [Run FireSim](#run-firesim), else continue.
 > CONDA_BACKUP_CPPFLAGS=-DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /home/user/miniforge3/include -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /home/user/miniforge3/include
 > ::WARNING:: you still seem to have -DNDEBUG in your environment. This is known to cause problems.
 > ```
-> Run these commands and try again.
+> Run these commands 
 > 
 > ```bash
 > export CPPFLAGS="$(echo $CPPFLAGS | sed 's/-DNDEBUG//g' | sed 's/-D_FORTIFY_SOURCE=2//g')"
@@ -126,9 +126,9 @@ Next add this config in `$CHIPYARD_DIR/sims/firesim/deploy/config_build_recipes.
 Make sure to change TargetConfigName to the correct TargetConfig class. 
 
 ```yaml
-alveo_u250_firesim_TargetConfigName:  # Change based on fpga and TargetConfig class
+alveo_u250_firesim_TargetConfigName:   # Change based on fpga and TargetConfig class
     DESIGN: FireSim
-    PLATFORM: xilinx_alveo_u250
+    PLATFORM: xilinx_alveo_u250        # The fpga you want to run it on
     PLATFORM_CONFIG: WithPrintfSynthesis_BaseXilinxAlveoConfig    # The underscore _ seperates multiple classes added to the processor
     TARGET_CONFIG: TargetConfigName    # This should be the same name of the class just created in TargetConfigs.scala
     TARGET_PROJECT: firesim
@@ -235,3 +235,34 @@ screen -r fsim0   # This increaments (fsim1, fsim2, ...) based on how many simul
 - **Possible solutions to `firesim buildbitstream` errors**.
 
   > Make sure `TARGET_CONFIG:` has correct name in `config_build_recipes.yaml`. It should match the class name in `TargetConfigs.scala`.Make sure `TARGET_PROJECT: firesim`.
+
+  <br>
+
+- **Vivado not found**
+
+  ```bash
+  [localhost] out: CONDA_BACKUP_CPPFLAGS=-DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /home/dawud/miniforge3/include -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /home/dawud/miniforge3/include
+  [localhost] out: ::WARNING:: you still seem to have -DNDEBUG in your environment. This is known to cause problems.
+  [localhost] out: Running with RISCV=/home/dawud/chipyard/.conda-env/riscv-tools
+  [localhost] out: make: Nothing to be done for 'driver'.
+  [localhost] out: 
+  Building Xilinx Alveo xilinx_alveo_u250 Bitstream from Verilog
+  [localhost] run: /home/dawud/chipyard/sims/firesim/builds/platforms/xilinx_alveo_u250/cl_xilinx_alveo_u250-firesim-FireSim-FireSimRocketNLPrefetchWithAccuracy-WithPrintfSynthesis_BaseXilinxAlveoConfig/build-bitstream.sh --cl_dir /home/dawud/chipyard/sims/firesim/builds/platforms/xilinx_alveo_u250/cl_xilinx_alveo_u250-firesim-FireSim-FireSimRocketNLPrefetchWithAccuracy-WithPrintfSynthesis_BaseXilinxAlveoConfig --frequency 60 --strategy TIMING --board au250
+  [localhost] out: /home/dawud/chipyard/sims/firesim/builds/platforms/xilinx_alveo_u250/cl_xilinx_alveo_u250-firesim-FireSim-FireSimRocketNLPrefetchWithAccuracy-WithPrintfSynthesis_BaseXilinxAlveoConfig/build-bitstream.sh: line 75: vivado: command not found
+  [localhost] out: 
+  Warning: run() received nonzero return code 127 while executing '/home/dawud/chipyard/sims/firesim/builds/platforms/xilinx_alveo_u250/cl_xilinx_alveo_u250-firesim-FireSim-FireSimRocketNLPrefetchWithAccuracy-WithPrintfSynthesis_BaseXilinxAlveoConfig/build-bitstream.sh --cl_dir /home/dawud/chipyard/sims/firesim/builds/platforms/xilinx_alveo_u250/cl_xilinx_alveo_u250-firesim-FireSim-FireSimRocketNLPrefetchWithAccuracy-WithPrintfSynthesis_BaseXilinxAlveoConfig --frequency 60 --strategy TIMING --board au250'!
+  Printing error output:
+  /home/dawud/chipyard/sims/firesim/builds/platforms/xilinx_alveo_u250/cl_xilinx_alveo_u250-firesim-FireSim-FireSimRocketNLPrefetchWithAccuracy-WithPrintfSynthesis_BaseXilinxAlveoConfig/build-bitstream.sh: line 75: vivado: command not found
+  FireSim Xilinx Alveo xilinx_alveo_u250 FPGA Build Failed
+  Your FPGA build failed for quintuplet: xilinx_alveo_u250-firesim-FireSim-FireSimRocketNLPrefetchWithAccuracy-WithPrintfSynthesis_BaseXilinxAlveoConfig
+  ERROR: A bitstream build failed.
+  Fatal error.
+  Traceback (most recent call last):
+    File "/home/dawud/chipyard/sims/firesim/deploy/firesim", line 530, in <module>
+      main(args)
+    File "/home/dawud/chipyard/sims/firesim/deploy/firesim", line 469, in main
+      t['task'](t['config'](args))
+    File "/home/dawud/chipyard/sims/firesim/deploy/firesim", line 313, in buildbitstream
+      sys.exit(1)
+  SystemExit: 1
+  ```
