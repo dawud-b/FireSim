@@ -54,6 +54,8 @@ More information on [the Chipyeard documentation](https://chipyard.readthedocs.i
 
 #### Initialization
 
+_If you are not added to the firesim group, ask to be added._
+
 Before using FireSim complete the following [Non-Sudo Setup](https://docs.fires.im/en/latest/Local-FPGA-Initial-Setup.html#non-sudo-setup) steps of the Firesim documentation:
 
 > *You only need to complete this step once initially:*
@@ -85,22 +87,15 @@ source sourceme-manager.sh --skip-ssh-setup
 
 <br>
 
-If everything else is setup skip to [Run FireSim](#run-firesim), else continue.
+If everything else is setup skip to [Running FireSim](#running-firesim), else continue.
 
 <br>
 
-> If reciving this Warning:
+> This warning can be ignored:
 > ```
 > CONDA_BACKUP_CPPFLAGS=-DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /home/user/miniforge3/include -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /home/user/miniforge3/include
 > ::WARNING:: you still seem to have -DNDEBUG in your environment. This is known to cause problems.
 > ```
-> Run these commands 
-> 
-> ```bash
-> export CPPFLAGS="$(echo $CPPFLAGS | sed 's/-DNDEBUG//g' | sed 's/-D_FORTIFY_SOURCE=2//g')"
-> export CONDA_BACKUP_CPPFLAGS="$(echo $CONDA_BACKUP_CPPFLAGS | sed 's/-DNDEBUG//g' | sed 's/-D_FORTIFY_SOURCE=2//g')"
-> ```
-> 
 
 -----
 
@@ -228,41 +223,44 @@ screen -r fsim0   # This increaments (fsim1, fsim2, ...) based on how many simul
   Exception: ERROR: Invalid null build dir
   ...
   ```
-  > Make sure `default_build_dir:` points to the correct directory in `config_build.yaml`.
+  FIX: Make sure `default_build_dir:` points to the correct directory in `config_build.yaml`.
 
   <br>
 
 - **Possible solutions to `firesim buildbitstream` errors**.
 
-  > Make sure `TARGET_CONFIG:` has correct name in `config_build_recipes.yaml`. It should match the class name in `TargetConfigs.scala`.Make sure `TARGET_PROJECT: firesim`.
+  Ensure `TARGET_CONFIG:` has correct name in `config_build_recipes.yaml`. It should match the class name in `TargetConfigs.scala`. Make sure `TARGET_PROJECT: firesim`.
 
   <br>
 
 - **Vivado not found**
 
   ```bash
-  [localhost] out: CONDA_BACKUP_CPPFLAGS=-DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /home/dawud/miniforge3/include -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /home/dawud/miniforge3/include
-  [localhost] out: ::WARNING:: you still seem to have -DNDEBUG in your environment. This is known to cause problems.
-  [localhost] out: Running with RISCV=/home/dawud/chipyard/.conda-env/riscv-tools
-  [localhost] out: make: Nothing to be done for 'driver'.
-  [localhost] out: 
-  Building Xilinx Alveo xilinx_alveo_u250 Bitstream from Verilog
-  [localhost] run: /home/dawud/chipyard/sims/firesim/builds/platforms/xilinx_alveo_u250/cl_xilinx_alveo_u250-firesim-FireSim-FireSimRocketNLPrefetchWithAccuracy-WithPrintfSynthesis_BaseXilinxAlveoConfig/build-bitstream.sh --cl_dir /home/dawud/chipyard/sims/firesim/builds/platforms/xilinx_alveo_u250/cl_xilinx_alveo_u250-firesim-FireSim-FireSimRocketNLPrefetchWithAccuracy-WithPrintfSynthesis_BaseXilinxAlveoConfig --frequency 60 --strategy TIMING --board au250
-  [localhost] out: /home/dawud/chipyard/sims/firesim/builds/platforms/xilinx_alveo_u250/cl_xilinx_alveo_u250-firesim-FireSim-FireSimRocketNLPrefetchWithAccuracy-WithPrintfSynthesis_BaseXilinxAlveoConfig/build-bitstream.sh: line 75: vivado: command not found
-  [localhost] out: 
-  Warning: run() received nonzero return code 127 while executing '/home/dawud/chipyard/sims/firesim/builds/platforms/xilinx_alveo_u250/cl_xilinx_alveo_u250-firesim-FireSim-FireSimRocketNLPrefetchWithAccuracy-WithPrintfSynthesis_BaseXilinxAlveoConfig/build-bitstream.sh --cl_dir /home/dawud/chipyard/sims/firesim/builds/platforms/xilinx_alveo_u250/cl_xilinx_alveo_u250-firesim-FireSim-FireSimRocketNLPrefetchWithAccuracy-WithPrintfSynthesis_BaseXilinxAlveoConfig --frequency 60 --strategy TIMING --board au250'!
-  Printing error output:
-  /home/dawud/chipyard/sims/firesim/builds/platforms/xilinx_alveo_u250/cl_xilinx_alveo_u250-firesim-FireSim-FireSimRocketNLPrefetchWithAccuracy-WithPrintfSynthesis_BaseXilinxAlveoConfig/build-bitstream.sh: line 75: vivado: command not found
+  ... : line 75: vivado: command not found
   FireSim Xilinx Alveo xilinx_alveo_u250 FPGA Build Failed
   Your FPGA build failed for quintuplet: xilinx_alveo_u250-firesim-FireSim-FireSimRocketNLPrefetchWithAccuracy-WithPrintfSynthesis_BaseXilinxAlveoConfig
   ERROR: A bitstream build failed.
   Fatal error.
-  Traceback (most recent call last):
-    File "/home/dawud/chipyard/sims/firesim/deploy/firesim", line 530, in <module>
-      main(args)
-    File "/home/dawud/chipyard/sims/firesim/deploy/firesim", line 469, in main
-      t['task'](t['config'](args))
-    File "/home/dawud/chipyard/sims/firesim/deploy/firesim", line 313, in buildbitstream
-      sys.exit(1)
-  SystemExit: 1
   ```
+
+  FIX: 
+  Add this line to the top of `~/.bashrc`:
+  ```bash
+  source /opt/Xilinx/Vivado/2023.1/settings64.sh
+  ```
+  Then check that the version is returned by running these commands:
+  
+  ```bash
+  echo 'source ~/.bashrc' >> ~/.bash_profile
+
+  source ~/.bashrc
+
+  ssh localhost which vivado # a path should be returned
+  ```
+  Now source the firesim enviornment again:
+  ```bash
+  cd $CHIPYARD_DIR/sims/firesim
+  source sourceme-manager.sh --skip-ssh-setup
+  ```
+  This only needs to be once to fix this issue.
+
