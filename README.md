@@ -103,11 +103,24 @@ If everything else is setup skip to [Running FireSim](#running-firesim), else co
 
 <br>
 
-> This warning can be ignored:
+> If you recive this warning,
 > ```
 > CONDA_BACKUP_CPPFLAGS=-DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /home/user/miniforge3/include -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /home/user/miniforge3/include
 > ::WARNING:: you still seem to have -DNDEBUG in your environment. This is known to cause problems.
 > ```
+> Add the three unset lines to `$CHIPYARD_DIR/sims/firesim/env.sh`:
+>
+>```bash
+># Ensure that we don't have -DNDEBUG anywhere in our > environment
+> 
+> unset CPPFLAGS
+> unset CONDA_BACKUP_CPPFLAGS
+> unset CONDA_BACKUP_DEBUG_CPPFLAGS
+> 
+> # check and fixup the known place where conda will put it
+>```
+> Make sure to place these lines after the `source` line but before the `if` check.
+
 
 -----
 
@@ -189,6 +202,8 @@ To build what was just setup run,
 firesim buildbitstream
 ```
 
+> If encountering errors look at the [known buildbitstream errors.](#build-bitstream-errors)
+
 After running this, it should output a message like the following:
 
 ```
@@ -210,14 +225,19 @@ Go to `$CHIPYARD_DIR/sims/firesim/deploy/config_runtime.yaml` and change the `de
 
 ```yaml
 target _config:
-  default_hu_config: alveo_u250_firesim_TargetConfigName
+  default_hw_config: alveo_u250_firesim_TargetConfigName # or whatever you added to config_hwdb.yaml.
 ```
 
-`workload_name:` should be set to `linux-uniform.json`. This is used to switch between linux or bare-metal.
+`workload_name:` is used to switch between linux or bare-metal. 
+Most of the time leave as `linux-uniform.json`.
 
----
+-----
 
-Run `firesim infrasetup`. This will copy the tar file and flash the fpga. 
+Now run
+```bash
+firesim infrasetup
+```
+This will copy the tar file and flash the fpga. 
 Then run `firesim boot` (simulatates in the background) or `firesim runworkload` (shows simulation progress) to start simulation.
 
 Running will create a screen session to go into:
@@ -228,6 +248,8 @@ screen -r fsim0   # This increaments (fsim1, fsim2, ...) based on how many simul
 -----
 
 ### Known Errors
+
+#### BuildBitstream Errors
 
 - **Null build directory error when running `firesim buildbitstream`.**
   ```
@@ -240,7 +262,7 @@ screen -r fsim0   # This increaments (fsim1, fsim2, ...) based on how many simul
 
   <br>
 
-- **Vivado not found**
+- **Vivado not found.**
 
   ```bash
   ... : line 75: vivado: command not found
@@ -273,7 +295,7 @@ screen -r fsim0   # This increaments (fsim1, fsim2, ...) based on how many simul
 
 <br>
 
-- **Cannot find file `create_db_2023.1.tcl`**
+- **Cannot find file `create_db_2023.1.tcl`.**
   
   You did not add `create_db_2023.1.tcl`, `implementation_2023.1.tcl`, and `implementation_idr__2023.1.tcl` into `$CHIPYARD_DIR/sims/firesim/platforms/xilinx_avelo_u250/cl_firesim/scripts/`.
 
@@ -281,9 +303,43 @@ screen -r fsim0   # This increaments (fsim1, fsim2, ...) based on how many simul
 
   <br>
 
-- **Possible solutions to `firesim buildbitstream` errors**.
+- **Other possible solutions to `firesim buildbitstream` errors**.
 
   Ensure `TARGET_CONFIG:` has correct name in `config_build_recipes.yaml`. It should match the class name in `TargetConfigs.scala`. Make sure `TARGET_PROJECT: firesim`.
 
   <br>
+
+#### Infrasetup Errors
+
+- **Current Issue:**
+
+  Unable to find `libdwarf.so.1`
+
+  Current Changes:
+
+  ```bash
+  conda install -c conda-forge libdwarf
+
+  export LD_LIBRARY_PATH=$CONDA_PREFIX/lib:$LD_LIBRARY_PATH
+  ```
+
+
+-----
+
+### Quick Commands
+
+```bash
+export CHIPYARD_DIR=~/chipyard
+cd ~/.ssh
+ssh-agent -s > AGENT_VARS
+source AGENT_VARS
+ssh-add firesim.pem
+```
+```bash
+cd $CHIPYARD_DIR/sims/firesim
+source sourceme-manager.sh --skip-ssh-setup
+unset CONDA_BACKUP_CPPFLAGS
+```
+
+
 

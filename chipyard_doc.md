@@ -103,11 +103,24 @@ If everything else is setup skip to [Running FireSim](#running-firesim), else co
 
 <br>
 
-> This warning can be ignored:
+> If you recive this warning,
 > ```
 > CONDA_BACKUP_CPPFLAGS=-DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /home/user/miniforge3/include -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /home/user/miniforge3/include
 > ::WARNING:: you still seem to have -DNDEBUG in your environment. This is known to cause problems.
 > ```
+> Add the three unset lines to `$CHIPYARD_DIR/sims/firesim/env.sh`:
+>
+>```bash
+># Ensure that we don't have -DNDEBUG anywhere in our > environment
+> 
+> unset CPPFLAGS
+> unset CONDA_BACKUP_CPPFLAGS
+> unset CONDA_BACKUP_DEBUG_CPPFLAGS
+> 
+> # check and fixup the known place where conda will put it
+>```
+> Make sure to place these lines after the `source` line but before the `if` check.
+
 
 -----
 
@@ -236,7 +249,7 @@ screen -r fsim0   # This increaments (fsim1, fsim2, ...) based on how many simul
 
 ### Known Errors
 
-#### Build Bitstream Errors
+#### BuildBitstream Errors
 
 - **Null build directory error when running `firesim buildbitstream`.**
   ```
@@ -296,6 +309,7 @@ screen -r fsim0   # This increaments (fsim1, fsim2, ...) based on how many simul
 
   <br>
 
+#### Infrasetup Errors
 
 - **Current Issue:**
 
@@ -312,7 +326,7 @@ screen -r fsim0   # This increaments (fsim1, fsim2, ...) based on how many simul
 
 -----
 
-#### Quick Commands
+### Quick Commands
 
 ```bash
 export CHIPYARD_DIR=~/chipyard
