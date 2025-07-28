@@ -1,0 +1,154 @@
+2025-07-22 12:35:02,831 [main        ] [INFO ]  FireSim Manager. Docs: https://docs.fires.im
+Running: infrasetup
+
+2025-07-22 12:35:02,839 [__init__    ] [DEBUG]  {'config_file_name': 'config_hwdb.yaml',
+ 'hwconf_dict': {'alveo_u200_firesim_rocket_singlecore_no_nic': <runtools.runtime_config.RuntimeHWConfig object at 0x7f70b0d80b50>,
+                 'alveo_u250_firesim_FireSimRocketNLPrefetchWithAccuracy': <runtools.runtime_config.RuntimeHWConfig object at 0x7f70b0d80f10>,
+                 'alveo_u250_firesim_gemmini_rocket_singlecore_no_nic': <runtools.runtime_config.RuntimeHWConfig object at 0x7f70b0d80a60>,
+                 'alveo_u250_firesim_rocket_singlecore_no_nic': <runtools.runtime_config.RuntimeHWConfig object at 0x7f70b0d80820>,
+                 'alveo_u280_firesim_rocket_singlecore_no_nic': <runtools.runtime_config.RuntimeHWConfig object at 0x7f70b0d80be0>,
+                 'firesim_boom_singlecore_nic_l2_llc4mb_ddr3': <runtools.runtime_config.RuntimeHWConfig object at 0x7f70b0d800a0>,
+                 'firesim_boom_singlecore_no_nic_l2_llc4mb_ddr3': <runtools.runtime_config.RuntimeHWConfig object at 0x7f70b0d801f0>,
+                 'firesim_gemmini_printf_rocket_singlecore_no_nic': <runtools.runtime_config.RuntimeHWConfig object at 0x7f70b0d802b0>,
+                 'firesim_gemmini_rocket_singlecore_no_nic': <runtools.runtime_config.RuntimeHWConfig object at 0x7f70b0d802e0>,
+                 'firesim_rocket_quadcore_nic_l2_llc4mb_ddr3': <runtools.runtime_config.RuntimeHWConfig object at 0x7f70b0d80220>,
+                 'firesim_rocket_quadcore_no_nic_l2_llc4mb_ddr3': <runtools.runtime_config.RuntimeHWConfig object at 0x7f70b0d80130>,
+                 'firesim_rocket_singlecore_no_nic_l2_lbp': <runtools.runtime_config.RuntimeHWConfig object at 0x7f70b0d80490>,
+                 'firesim_rocket_singlecore_sha3_nic_l2_llc4mb_ddr3': <runtools.runtime_config.RuntimeHWConfig object at 0x7f70b0d80520>,
+                 'firesim_rocket_singlecore_sha3_no_nic_l2_llc4mb_ddr3': <runtools.runtime_config.RuntimeHWConfig object at 0x7f70b0d80370>,
+                 'firesim_rocket_singlecore_sha3_no_nic_l2_llc4mb_ddr3_printf': <runtools.runtime_config.RuntimeHWConfig object at 0x7f70b0d805b0>,
+                 'firesim_supernode_rocket_singlecore_nic_l2_lbp': <runtools.runtime_config.RuntimeHWConfig object at 0x7f70b0d80b80>,
+                 'nitefury_firesim_rocket_singlecore_no_nic': <runtools.runtime_config.RuntimeHWConfig object at 0x7f70b0d80e80>,
+                 'vitis_firesim_gemmini_rocket_singlecore_no_nic': <runtools.runtime_config.RuntimeHWConfig object at 0x7f70b0d80760>,
+                 'vitis_firesim_rocket_singlecore_no_nic': <runtools.runtime_config.RuntimeHWConfig object at 0x7f70b0d807f0>,
+                 'xilinx_vcu118_firesim_rocket_singlecore_4GB_no_nic': <runtools.runtime_config.RuntimeHWConfig object at 0x7f70b0d80a30>},
+ 'simulation_mode_string': 'FPGA simulation'}
+2025-07-22 12:35:02,851 [__init__    ] [DEBUG]  {'autocounter_config': AutoCounterConfig(readrate=0),
+ 'default_plusarg_passthrough': '',
+ 'defaulthwconfig': 'alveo_u250_firesim_FireSimRocketNLPrefetchWithAccuracy',
+ 'hostdebug_config': HostDebugConfig(zero_out_dram=False,
+                                     disable_synth_asserts=False),
+ 'linklatency': 6405,
+ 'metasimulation_enabled': False,
+ 'metasimulation_host_simulator': 'verilator',
+ 'metasimulation_only_plusargs': '+fesvr-step-size=128 +max-cycles=100000000',
+ 'metasimulation_only_vcs_plusargs': '+vcs+initreg+0 +vcs+initmem+0',
+ 'netbandwidth': 200,
+ 'no_net_num_nodes': 1,
+ 'profileinterval': -1,
+ 'run_farm_dispatcher': <runtools.run_farm.ExternallyProvisioned object at 0x7f70b0f3ee30>,
+ 'suffixtag': None,
+ 'switchinglatency': 10,
+ 'synthprint_config': SynthPrintConfig(start=0, end=-1, cycle_prefix=True),
+ 'terminateoncompletion': False,
+ 'topology': 'no_net_config',
+ 'tracerv_config': TracerVConfig(enable=False,
+                                 select=1,
+                                 start=0,
+                                 end=-1,
+                                 output_format=0),
+ 'workload_name': 'linux-uniform.json'}
+2025-07-22 12:35:02,873 [__init__    ] [DEBUG]  {'config_file_name': 'config_build_recipes.yaml',
+ 'hwconf_dict': {'alveo_u200_firesim_rocket_singlecore_no_nic': <runtools.runtime_config.RuntimeBuildRecipeConfig object at 0x7f70b0d81750>,
+                 'alveo_u250_firesim_FireSimRocketNLPrefetchWithAccuracy': <runtools.runtime_config.RuntimeBuildRecipeConfig object at 0x7f70b0d81660>,
+                 'alveo_u250_firesim_FireSimRocketPrefetchTemplate': <runtools.runtime_config.RuntimeBuildRecipeConfig object at 0x7f70b0d81480>,
+                 'alveo_u250_firesim_gemmini_rocket_singlecore_no_nic': <runtools.runtime_config.RuntimeBuildRecipeConfig object at 0x7f70b0d81210>,
+                 'alveo_u250_firesim_rocket_singlecore_no_nic': <runtools.runtime_config.RuntimeBuildRecipeConfig object at 0x7f70b0d80d00>,
+                 'alveo_u280_firesim_rocket_singlecore_no_nic': <runtools.runtime_config.RuntimeBuildRecipeConfig object at 0x7f70b0d80e50>,
+                 'firesim_boom_singlecore_nic_l2_llc4mb_ddr3': <runtools.runtime_config.RuntimeBuildRecipeConfig object at 0x7f70b0d810f0>,
+                 'firesim_boom_singlecore_no_nic_l2_llc4mb_ddr3': <runtools.runtime_config.RuntimeBuildRecipeConfig object at 0x7f70b0d81cc0>,
+                 'firesim_boom_singlecore_no_nic_l2_llc4mb_ddr3_ramopts': <runtools.runtime_config.RuntimeBuildRecipeConfig object at 0x7f70b0d81090>,
+                 'firesim_cva6_singlecore_no_nic_l2_llc4mb_ddr3': <runtools.runtime_config.RuntimeBuildRecipeConfig object at 0x7f70b0d81030>,
+                 'firesim_gemmini_printf_rocket_singlecore_no_nic': <runtools.runtime_config.RuntimeBuildRecipeConfig object at 0x7f70b0d80f70>,
+                 'firesim_gemmini_rocket_singlecore_no_nic': <runtools.runtime_config.RuntimeBuildRecipeConfig object at 0x7f70b0d81060>,
+                 'firesim_rocket_quadcore_nic_l2_llc4mb_ddr3': <runtools.runtime_config.RuntimeBuildRecipeConfig object at 0x7f70b0d82500>,
+                 'firesim_rocket_quadcore_no_nic_l2_llc4mb_ddr3': <runtools.runtime_config.RuntimeBuildRecipeConfig object at 0x7f70b0d80f40>,
+                 'firesim_rocket_singlecore_gemmini_no_nic_l2_llc4mb_ddr3': <runtools.runtime_config.RuntimeBuildRecipeConfig object at 0x7f70b0d813f0>,
+                 'firesim_rocket_singlecore_no_nic_l2_lbp': <runtools.runtime_config.RuntimeBuildRecipeConfig object at 0x7f70b0d81570>,
+                 'firesim_rocket_singlecore_sha3_nic_l2_llc4mb_ddr3': <runtools.runtime_config.RuntimeBuildRecipeConfig object at 0x7f70b0d806a0>,
+                 'firesim_rocket_singlecore_sha3_no_nic_l2_llc4mb_ddr3': <runtools.runtime_config.RuntimeBuildRecipeConfig object at 0x7f70b0d81270>,
+                 'firesim_rocket_singlecore_sha3_no_nic_l2_llc4mb_ddr3_printf': <runtools.runtime_config.RuntimeBuildRecipeConfig object at 0x7f70b0d811e0>,
+                 'firesim_supernode_rocket_singlecore_nic_l2_lbp': <runtools.runtime_config.RuntimeBuildRecipeConfig object at 0x7f70b0d80ca0>,
+                 'midasexamples_gcd': <runtools.runtime_config.RuntimeBuildRecipeConfig object at 0x7f70b0d81300>,
+                 'nitefury_firesim_rocket_singlecore_no_nic': <runtools.runtime_config.RuntimeBuildRecipeConfig object at 0x7f70b0d81240>,
+                 'vitis_firesim_rocket_singlecore_no_nic': <runtools.runtime_config.RuntimeBuildRecipeConfig object at 0x7f70b0d81600>,
+                 'xilinx_vcu118_firesim_rocket_singlecore_4GB_no_nic': <runtools.runtime_config.RuntimeBuildRecipeConfig object at 0x7f70b0d81360>},
+ 'simulation_mode_string': 'Metasimulation'}
+2025-07-22 12:35:02,887 [decorator   ] [DEBUG]  deprecate positional args: graphviz.backend.piping.pipe(['renderer', 'formatter', 'neato_no_op', 'quiet'])
+2025-07-22 12:35:02,888 [decorator   ] [DEBUG]  deprecate positional args: graphviz.backend.rendering.render(['renderer', 'formatter', 'neato_no_op', 'quiet'])
+2025-07-22 12:35:02,890 [decorator   ] [DEBUG]  deprecate positional args: graphviz.backend.unflattening.unflatten(['stagger', 'fanout', 'chain', 'encoding'])
+2025-07-22 12:35:02,890 [decorator   ] [DEBUG]  deprecate positional args: graphviz.backend.viewing.view(['quiet'])
+2025-07-22 12:35:02,895 [decorator   ] [DEBUG]  deprecate positional args: graphviz.quoting.quote(['is_html_string', 'is_valid_id', 'dot_keywords', 'endswith_odd_number_of_backslashes', 'escape_unescaped_quotes'])
+2025-07-22 12:35:02,895 [decorator   ] [DEBUG]  deprecate positional args: graphviz.quoting.a_list(['kwargs', 'attributes'])
+2025-07-22 12:35:02,895 [decorator   ] [DEBUG]  deprecate positional args: graphviz.quoting.attr_list(['kwargs', 'attributes'])
+2025-07-22 12:35:02,895 [decorator   ] [DEBUG]  deprecate positional args: graphviz.dot.Dot.clear(['keep_attrs'])
+2025-07-22 12:35:02,895 [decorator   ] [DEBUG]  deprecate positional args: graphviz.dot.Dot.__iter__(['subgraph'])
+2025-07-22 12:35:02,895 [decorator   ] [DEBUG]  deprecate positional args: graphviz.dot.Dot.node(['_attributes'])
+2025-07-22 12:35:02,895 [decorator   ] [DEBUG]  deprecate positional args: graphviz.dot.Dot.edge(['_attributes'])
+2025-07-22 12:35:02,895 [decorator   ] [DEBUG]  deprecate positional args: graphviz.dot.Dot.attr(['_attributes'])
+2025-07-22 12:35:02,895 [decorator   ] [DEBUG]  deprecate positional args: graphviz.dot.Dot.subgraph(['name', 'comment', 'graph_attr', 'node_attr', 'edge_attr', 'body'])
+2025-07-22 12:35:02,897 [decorator   ] [DEBUG]  deprecate positional args: graphviz.piping.Pipe._pipe_legacy(['renderer', 'formatter', 'neato_no_op', 'quiet'])
+2025-07-22 12:35:02,898 [decorator   ] [DEBUG]  deprecate positional args: graphviz.saving.Save.save(['directory'])
+2025-07-22 12:35:02,899 [decorator   ] [DEBUG]  deprecate positional args: graphviz.rendering.Render.render(['directory', 'view', 'cleanup', 'format', 'renderer', 'formatter', 'neato_no_op', 'quiet', 'quiet_view'])
+2025-07-22 12:35:02,899 [decorator   ] [DEBUG]  deprecate positional args: graphviz.rendering.Render.view(['directory', 'cleanup', 'quiet', 'quiet_view'])
+2025-07-22 12:35:02,900 [decorator   ] [DEBUG]  deprecate positional args: graphviz.unflattening.Unflatten.unflatten(['stagger', 'fanout', 'chain'])
+2025-07-22 12:35:02,900 [decorator   ] [DEBUG]  deprecate positional args: graphviz.graphs.BaseGraph.__init__(['comment', 'filename', 'directory', 'format', 'engine', 'encoding', 'graph_attr', 'node_attr', 'edge_attr', 'body', 'strict'])
+2025-07-22 12:35:02,901 [decorator   ] [DEBUG]  deprecate positional args: graphviz.sources.Source.from_file(['directory', 'format', 'engine', 'encoding', 'renderer', 'formatter'])
+2025-07-22 12:35:02,901 [decorator   ] [DEBUG]  deprecate positional args: graphviz.sources.Source.__init__(['filename', 'directory', 'format', 'engine', 'encoding'])
+2025-07-22 12:35:02,901 [decorator   ] [DEBUG]  deprecate positional args: graphviz.sources.Source.save(['directory'])
+2025-07-22 12:35:02,901 [mkdirs      ] [DEBUG]  os.makedirs('generated-topology-diagrams')
+2025-07-22 12:35:02,902 [save        ] [DEBUG]  write lines to 'generated-topology-diagrams/firesim_topologyno_net_config.gv'
+2025-07-22 12:35:02,903 [run_check   ] [DEBUG]  run [PosixPath('dot'), '-Kdot', '-Tpdf', '-O', 'firesim_topologyno_net_config.gv']
+2025-07-22 12:35:02,972 [flush       ] [DEBUG]  [localhost] Executing task 'instance_liveness'
+2025-07-22 12:35:02,975 [instance_liv] [INFO ]  [localhost] Checking if host instance is up...
+2025-07-22 12:35:02,976 [flush       ] [DEBUG]  [localhost] run: uname -a
+2025-07-22 12:35:06,354 [flush       ] [DEBUG]  [localhost] out: Linux draccus.ece.iastate.edu 4.18.0-425.3.1.el8.x86_64 #1 SMP Fri Sep 30 11:45:06 EDT 2022 x86_64 x86_64 x86_64 GNU/Linux
+2025-07-22 12:35:06,354 [flush       ] [DEBUG]  [localhost] out: 
+2025-07-22 12:35:06,358 [flush       ] [DEBUG]  [localhost] run: echo $SHELL
+2025-07-22 12:35:10,117 [flush       ] [DEBUG]  [localhost] out: /bin/bash
+2025-07-22 12:35:10,117 [flush       ] [DEBUG]  [localhost] out: 
+2025-07-22 12:35:10,149 [downloadURI ] [DEBUG]  Download attempt 1 of 4: 'file:///home/dawud/chipyard/sims/firesim/deploy/results-build/2025-07-22--14-09-10-alveo_u250_firesim_FireSimRocketNLPrefetchWithAccuracy/cl_xilinx_alveo_u250-firesim-FireSim-FireSimRocketNLPrefetchWithAccuracy-WithPrintfSynthesis_BaseXilinxAlveoConfig/firesim.tar.gz' to '/tmp/tmpih21q42k/addb74703e92f96f34b63fd1b7b83ec5e1533ea52700cccd7ffd0aba9de1e099'
+2025-07-22 12:35:10,164 [downloadURI ] [DEBUG]  Successfully fetched 'file:///home/dawud/chipyard/sims/firesim/deploy/results-build/2025-07-22--14-09-10-alveo_u250_firesim_FireSimRocketNLPrefetchWithAccuracy/cl_xilinx_alveo_u250-firesim-FireSim-FireSimRocketNLPrefetchWithAccuracy-WithPrintfSynthesis_BaseXilinxAlveoConfig/firesim.tar.gz' to '/tmp/tmpih21q42k/addb74703e92f96f34b63fd1b7b83ec5e1533ea52700cccd7ffd0aba9de1e099'
+2025-07-22 12:35:10,164 [flush       ] [DEBUG]  [localhost] local: mkdir -p /tmp/tmpih21q42k/addb74703e92f96f34b63fd1b7b83ec5e1533ea52700cccd7ffd0aba9de1e099-dir
+2025-07-22 12:35:10,167 [flush       ] [DEBUG]  [localhost] local: tar xvf /tmp/tmpih21q42k/addb74703e92f96f34b63fd1b7b83ec5e1533ea52700cccd7ffd0aba9de1e099 -C /tmp/tmpih21q42k/addb74703e92f96f34b63fd1b7b83ec5e1533ea52700cccd7ffd0aba9de1e099-dir
+2025-07-22 12:35:10,763 [flush       ] [DEBUG]  [localhost] local: cat /tmp/tmpih21q42k/addb74703e92f96f34b63fd1b7b83ec5e1533ea52700cccd7ffd0aba9de1e099-dir/*/metadata
+2025-07-22 12:35:10,766 [flush       ] [DEBUG]  [localhost] Executing task 'build_drivers_helper'
+2025-07-22 12:35:10,766 [build_sim_dr] [INFO ]  Building FPGA software driver for xilinx_alveo_u250-firesim-FireSim-FireSimRocketNLPrefetchWithAccuracy-WithPrintfSynthesis_BaseXilinxAlveoConfig
+2025-07-22 12:35:10,766 [flush       ] [INFO ]  [localhost] local: pwd
+2025-07-22 12:35:10,768 [flush       ] [INFO ]  [localhost] run: make PLATFORM=xilinx_alveo_u250 TARGET_PROJECT=firesim DESIGN=FireSim TARGET_CONFIG=FireSimRocketNLPrefetchWithAccuracy PLATFORM_CONFIG=WithPrintfSynthesis_BaseXilinxAlveoConfig xilinx_alveo_u250
+2025-07-22 12:35:15,615 [flush       ] [INFO ]  [localhost] out: ^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[CONDA_BACKUP_CPPFLAGS=-DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /home/dawud/miniforge3/include -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /home/dawud/miniforge3/include
+2025-07-22 12:35:15,615 [flush       ] [INFO ]  [localhost] out: ::WARNING:: you still seem to have -DNDEBUG in your environment. This is known to cause problems.
+2025-07-22 12:35:15,633 [flush       ] [INFO ]  [localhost] out: Running with RISCV=/home/dawud/chipyard/.conda-env/riscv-tools
+2025-07-22 12:36:29,083 [flush       ] [INFO ]  [localhost] out: make: Nothing to be done for 'xilinx_alveo_u250'.
+2025-07-22 12:36:29,083 [flush       ] [INFO ]  [localhost] out: 
+2025-07-22 12:36:29,090 [get_local_sh] [DEBUG]  Identifying ldd dependencies for: ../sim/output//xilinx_alveo_u250/xilinx_alveo_u250-firesim-FireSim-FireSimRocketNLPrefetchWithAccuracy-WithPrintfSynthesis_BaseXilinxAlveoConfig/FireSim-xilinx_alveo_u250
+2025-07-22 12:36:30,163 [<module>    ] [ERROR]  Fatal error.
+Traceback (most recent call last):
+  File "/home/dawud/chipyard/sims/firesim/deploy/firesim", line 530, in <module>
+    main(args)
+  File "/home/dawud/chipyard/sims/firesim/deploy/firesim", line 469, in main
+    t['task'](t['config'](args))
+  File "/home/dawud/chipyard/sims/firesim/deploy/firesim", line 243, in infrasetup
+    runtime_conf.infrasetup()
+  File "/home/dawud/chipyard/sims/firesim/deploy/runtools/runtime_config.py", line 890, in infrasetup
+    self.firesim_topology_with_passes.infrasetup_passes(use_mock_instances_for_testing)
+  File "/home/dawud/chipyard/sims/firesim/deploy/runtools/firesim_topology_with_passes.py", line 445, in infrasetup_passes
+    self.pass_build_required_drivers()
+  File "/home/dawud/chipyard/sims/firesim/deploy/runtools/firesim_topology_with_passes.py", line 409, in pass_build_required_drivers
+    execute(build_drivers_helper, servers, hosts=['localhost'])
+  File "/home/dawud/chipyard/.conda-env/lib/python3.10/site-packages/fabric/tasks.py", line 356, in execute
+    results[host] = _execute(
+  File "/home/dawud/chipyard/.conda-env/lib/python3.10/site-packages/fabric/tasks.py", line 247, in _execute
+    return task.run(*args, **kwargs)
+  File "/home/dawud/chipyard/.conda-env/lib/python3.10/site-packages/fabric/tasks.py", line 147, in run
+    return self.wrapped(*args, **kwargs)
+  File "/home/dawud/chipyard/sims/firesim/deploy/runtools/firesim_topology_with_passes.py", line 406, in build_drivers_helper
+    resolved_cfg.build_sim_tarball(server.get_tarball_files_paths(), resolved_cfg.get_driver_tar_filename())
+  File "/home/dawud/chipyard/sims/firesim/deploy/runtools/firesim_topology_elements.py", line 501, in get_tarball_files_paths
+    all_paths += get_local_shared_libraries(driver_path)
+  File "/home/dawud/chipyard/sims/firesim/deploy/runtools/utils.py", line 379, in get_local_shared_libraries
+    assert dso.path is not None, f"{dso.soname} has no linkage reported by ldd for {elf} in: {dso}"
+AssertionError: libdwarf.so.1 has no linkage reported by ldd for ../sim/output//xilinx_alveo_u250/xilinx_alveo_u250-firesim-FireSim-FireSimRocketNLPrefetchWithAccuracy-WithPrintfSynthesis_BaseXilinxAlveoConfig/FireSim-xilinx_alveo_u250 in: soname: libdwarf.so.1, path: None, found: False, mem_address: None, unused: None
+2025-07-22 12:36:30,167 [<module>    ] [INFO ]  The full log of this run is:
+/home/dawud/chipyard/sims/firesim/deploy/logs/2025-07-22--17-35-02-infrasetup-ATRT5NR69XXGI2FR.log
+
