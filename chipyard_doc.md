@@ -4,7 +4,7 @@ Set a Chipyard path for eaiser copy and paste later on:
 ```bash
 export CHIPYARD_DIR=~/chipyard  # or wherever you cloned the Chipyard repo
 ```
-This sets the `$CHIPYARD_DIR` environment variable to your Chipyard root directory, so you can just copy and paste the commands later on.
+This sets the `$CHIPYARD_DIR` environment variable to your Chipyard root directory.
 
 ---
 
@@ -99,7 +99,7 @@ source sourceme-manager.sh --skip-ssh-setup
 
 <br>
 
-If everything else is setup skip to [Running FireSim](#running-firesim), else continue.
+If your current hardware configuration is already setup, skip to [Running FireSim](#running-firesim), else continue.
 
 <br>
 
@@ -195,7 +195,8 @@ default_build_dir: /home/user/chipyard/sims/firesim/builds # Change this based o
 
 #### Running FireSim
 
-If you haven't sourced the firesim enviornment yet, finish the [Initailization](#initialization) steps now.
+If you haven't sourced the firesim enviornment yet, finish the [Initailization](#initialization) steps now. 
+The source commands can also be found in [Quick Commands](#quick-commands) for easy copy and paste. 
 
 To build what was just setup run,
 ```bash
@@ -233,11 +234,14 @@ Most of the time leave as `linux-uniform.json`.
 
 -----
 
+> The documentation is correct up to this point. `firesim infrasetup` is not yet running without errors.
+
 Now run
 ```bash
 firesim infrasetup
 ```
 This will copy the tar file and flash the fpga. 
+
 Then run `firesim boot` (simulatates in the background) or `firesim runworkload` (shows simulation progress) to start simulation.
 
 Running will create a screen session to go into:
@@ -297,37 +301,64 @@ screen -r fsim0   # This increaments (fsim1, fsim2, ...) based on how many simul
 
 - **Cannot find file `create_db_2023.1.tcl`.**
   
-  You did not add `create_db_2023.1.tcl`, `implementation_2023.1.tcl`, and `implementation_idr__2023.1.tcl` into `$CHIPYARD_DIR/sims/firesim/platforms/xilinx_avelo_u250/cl_firesim/scripts/`.
+  You did not add `create_db_2023.1.tcl`, `implementation_2023.1.tcl`, and `implementation_idr__2023.1.tcl` into `$CHIPYARD_DIR/sims/firesim/platforms/xilinx_avelo_u250/cl_firesim/scripts/`. See the [Initalization Steps](#initialization) for more info.
 
-  See the [Initalization Steps](#initialization).
-
-  <br>
+<br>
 
 - **Other possible solutions to `firesim buildbitstream` errors**.
 
-  Ensure `TARGET_CONFIG:` has correct name in `config_build_recipes.yaml`. It should match the class name in `TargetConfigs.scala`. Make sure `TARGET_PROJECT: firesim`.
+  Ensure `TARGET_CONFIG:` has correct name in `config_build_recipes.yaml`. It should match the class name in `TargetConfigs.scala`. Make sure `TARGET_PROJECT: firesim`. See [Config Setup](#config-setup) for more info.
 
-  <br>
+<br>
 
 #### Infrasetup Errors
 
-- **Current Issue:**
-
-  Unable to find `libdwarf.so.1`
-
-  Current Changes:
-
-  ```bash
-  conda install -c conda-forge libdwarf
-
-  export LD_LIBRARY_PATH=$CONDA_PREFIX/lib:$LD_LIBRARY_PATH
+- **Unable to find `libdwarf.so.1`**
+  
+  ```
+  AssertionError: libdwarf.so.1 has no linkage reported by ldd for ../sim/output//xilinx_alveo_u250/xilinx_alveo_u250-firesim-FireSim-F$
   ```
 
+  FIX (Do this after sourcing the firesim environment):
+  ```bash
+  # make sure libdwarf is installed
+  conda install -c conda-forge libdwarf
 
+  # Symlink libdwarf.so.1 into $HOME/miniforge3/lib:
+  mkdir -p $HOME/miniforge3/lib
+  ln -sf $HOME/miniforge3/pkgs/libdwarf-0.0.0.20190110_28_ga81397fc4-h753d276_0/lib/libdwarf.so.1 $HOME/miniforge3/lib/libdwarf.so.1
+
+  # Update the path
+  export LD_LIBRARY_PATH=$HOME/miniforge3/lib:$LD_LIBRARY_PATH
+  ```
+  Check with ldd:
+  ```bash
+  cd $CHIPYARD_DIR/sims/firesim/sim/output/x.../x...
+  ldd ./FireSim-xilinx_alveo_u250
+  ```
+  It should out something like,
+  ```bash
+  libdwarf.so.1 => /home/user/miniforge3/lib/libdwarf.so.1
+  ```
+
+<br>
+
+- **Current Infrasetup Error**
+  
+  ```
+  ================================ Standard error ================================
+  rsync: [sender] link_stat "/home/dawud/chipyard/sims/firesim/deploy/workloads/linux-uniform/br-base.img" failed: No such file or directory (2)
+  rsync error: some files/attrs were not transferred (see previous errors) (code 23) at main.c(1336) [sender=3.2.7]
+  ================================================================================
+  Aborting.
+  Fatal error: One or more hosts failed while executing task 'infrasetup_node_wrapper'
+  ```
+  
 -----
 
 ### Quick Commands
 
+**Sourcing the FireSim Environment:**
 ```bash
 export CHIPYARD_DIR=~/chipyard
 cd ~/.ssh
@@ -338,7 +369,6 @@ ssh-add firesim.pem
 ```bash
 cd $CHIPYARD_DIR/sims/firesim
 source sourceme-manager.sh --skip-ssh-setup
-unset CONDA_BACKUP_CPPFLAGS
 ```
 
 
