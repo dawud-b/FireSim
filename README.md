@@ -367,11 +367,22 @@ screen -r fsim0   # This increaments (fsim1, fsim2, ...) based on how many simul
   ```
 
   FIX (from the [offical FireSim doc](https://docs.fires.im/en/latest/Getting-Started-Guides/On-Premises-FPGA-Getting-Started/Running-Simulations/Running-Single-Node-Simulation-Xilinx-Alveo-U250.html)):
+
   ```bash
   # assuming you already sourced sourceme-manager.sh from firesim directory:
   cd $CHIPYARD_DIR/software/firemarshal
   ./marshal -v build br-base.json
   ./marshal -v install br-base.json
+  ```
+
+  <br>
+
+- **Current Error: sudo**
+  ```
+  Fatal error: run() received nonzero return code 1 while executing!
+  Requested: sudo rmmod xdma
+  Executed: /bin/bash -l -c "sudo rmmod xdma"
+  Aborting.
   ```
   
 -----
