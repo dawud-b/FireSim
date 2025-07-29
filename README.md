@@ -1,5 +1,5 @@
-## Chipyard and FireSim
-
+# Chipyard and FireSim
+-----
 Set a Chipyard path for eaiser copy and paste later on:
 ```bash
 export CHIPYARD_DIR=~/chipyard  # or wherever you cloned the Chipyard repo
@@ -8,7 +8,7 @@ This sets the `$CHIPYARD_DIR` environment variable to your Chipyard root directo
 
 ---
 
-### Baremetal RISC-V
+## Baremetal RISC-V
 Convert C code file into RISC-V. Replace \<FILE> with the file name and run this command in the same directory as the C file. [More information here.](https://chipyard.readthedocs.io/en/stable/Software/Baremetal.html)
 ```bash
 riscv64-unknown-elf-gcc -fno-common -fno-builtin-printf -specs=htif_nano.specs -c <FILE>.c
@@ -18,7 +18,7 @@ riscv64-unknown-elf-gcc -static -specs=htif_nano.specs <FILE>.o -o <FILE>.riscv
 
 ---
 
-### RTL Simulation
+## RTL Simulation
 
 To test a RISC-V file run:
 ```bash
@@ -50,9 +50,9 @@ More information on [the Chipyeard documentation](https://chipyard.readthedocs.i
 
 -----
 
-### FireSim
+## FireSim
 
-#### Initialization
+### Initialization
 
 This section will go over how to setup firesim.
 
@@ -126,7 +126,7 @@ These commands can be copied and pasted from the [Quick Commands](#quick-command
 
 -----
 
-#### Config Setup
+### Config Setup
 
 This section will go over how to set up files for firesim simulation.
 
@@ -195,7 +195,7 @@ default_build_dir: /home/user/chipyard/sims/firesim/builds # Change this based o
 ```
 -----
 
-#### Running FireSim
+### Running FireSim
 
 If you haven't sourced the firesim enviornment yet, finish the [Initailization](#initialization) steps now, or use the [Quick Commands](#quick-commands) to source FireSim. 
 
@@ -256,9 +256,9 @@ screen -r fsim0   # This increaments (fsim1, fsim2, ...) based on how many simul
 
 -----
 
-### Known Errors
+## Known Errors
 
-#### BuildBitstream Errors
+### BuildBitstream Errors
 
 - **Null build directory error when running `firesim buildbitstream`.**
   ```
@@ -316,7 +316,7 @@ screen -r fsim0   # This increaments (fsim1, fsim2, ...) based on how many simul
 
 <br>
 
-#### Infrasetup Errors
+### Infrasetup Errors
 
 - **Unable to find `libdwarf.so.1`**
   
@@ -387,7 +387,7 @@ screen -r fsim0   # This increaments (fsim1, fsim2, ...) based on how many simul
   
 -----
 
-### Quick Commands
+## Quick Commands
 
 **Sourcing the FireSim Environment:**
 ```bash
