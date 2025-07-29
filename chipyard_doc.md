@@ -333,11 +333,12 @@ screen -r fsim0   # This increaments (fsim1, fsim2, ...) based on how many simul
   ```
   Check with ldd:
   ```bash
-  cd $CHIPYARD_DIR/sims/firesim/sim/output/x.../x...
-  ldd ./FireSim-xilinx_alveo_u250
+  $CHIPYARD_DIR/sims/firesim/sim/output/xilinx_alveo_u250/
+
+  ldd ./<Config_Name>/FireSim-xilinx_alveo_u250
   ```
-  It should out something like,
-  ```bash
+  It should output a line like,
+  ```
   libdwarf.so.1 => /home/user/miniforge3/lib/libdwarf.so.1
   ```
 
