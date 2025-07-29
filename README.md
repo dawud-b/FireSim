@@ -62,9 +62,13 @@ _If you are not added to the firesim Linux group, ask to be added._
 
 First you must add `create_db_2023.1.tcl`, `implementation_2023.1.tcl`, and `implementation_idr__2023.1.tcl` into the following directory:
 
-> `$CHIPYARD_DIR/sims/firesim/platforms/xilinx_avelo_u250/cl_firesim/scripts/` 
+```bash
+$CHIPYARD_DIR/sims/firesim/platforms/xilinx_avelo_u250/cl_firesim/scripts/
+```
 
-These files can be found in the same github repo as this documentaion.
+These files can be found in the [GitHub repo](https://github.com/dawud-b/FireSim).
+
+<br>
 
 Next, complete the following [Non-Sudo Setup](https://docs.fires.im/en/latest/Local-FPGA-Initial-Setup.html#non-sudo-setup) steps of the Firesim documentation:
 
@@ -97,9 +101,7 @@ cd $CHIPYARD_DIR/sims/firesim
 source sourceme-manager.sh --skip-ssh-setup
 ```
 
-<br>
-
-If your current hardware configuration is already setup, skip to [Running FireSim](#running-firesim), else continue.
+These commands can be copied and pasted from the [Quick Commands](#quick-commands) section.
 
 <br>
 
@@ -195,18 +197,18 @@ default_build_dir: /home/user/chipyard/sims/firesim/builds # Change this based o
 
 #### Running FireSim
 
-If you haven't sourced the firesim enviornment yet, finish the [Initailization](#initialization) steps now. 
-The source commands can also be found in [Quick Commands](#quick-commands) for easy copy and paste. 
+If you haven't sourced the firesim enviornment yet, finish the [Initailization](#initialization) steps now, or use the [Quick Commands](#quick-commands) to source FireSim. 
 
-To build what was just setup run,
+<br>
+
+To build what was setup in the config files, run
 ```bash
 firesim buildbitstream
 ```
 
 > If encountering errors look at the [known buildbitstream errors.](#build-bitstream-errors)
 
-After running this, it should output a message like the following:
-
+After running this, a message will be output like the following:
 ```
 Add
 
@@ -216,7 +218,8 @@ alveo_u250_firesim_TargetConfigName:
   
 to your config_hwdb.yaml to use this hardware configuration.
 ```
-As it says, paste these lines into `$CHIPYARD_DIR/sims/firesim/deploy/config_hwdb.yaml` (Only the lines between "Add" and "to your ...").
+As it says, paste these lines into `$CHIPYARD_DIR/sims/firesim/deploy/config_hwdb.yaml` 
+(Only the lines between "Add" and "to your ...").
 
 <!-- `agfi` will be used if running on Amazon cloud servers. -->
 
@@ -234,15 +237,17 @@ Most of the time leave as `linux-uniform.json`.
 
 -----
 
-> The documentation is correct up to this point. `firesim infrasetup` is not yet running without errors.
-
 Now run
 ```bash
 firesim infrasetup
 ```
-This will copy the tar file and flash the fpga. 
+This will copy the tar file and flash the fpga.
 
-Then run `firesim boot` (simulatates in the background) or `firesim runworkload` (shows simulation progress) to start simulation.
+> If encountering errors look at the [known infrasetup errors.](#infrasetup-errors)
+
+<br>
+
+Finally, run `firesim boot` (simulatates in the background) or `firesim runworkload` (shows simulation progress) to start simulation.
 
 Running will create a screen session to go into:
 ```bash
@@ -319,7 +324,8 @@ screen -r fsim0   # This increaments (fsim1, fsim2, ...) based on how many simul
   AssertionError: libdwarf.so.1 has no linkage reported by ldd for ../sim/output//xilinx_alveo_u250/xilinx_alveo_u250-firesim-FireSim-F$
   ```
 
-  FIX (Do this after sourcing the firesim environment):
+  FIX:
+  After sourcing the FireSim enviornment, run these commands:
   ```bash
   # make sure libdwarf is installed
   conda install -c conda-forge libdwarf
@@ -335,17 +341,22 @@ screen -r fsim0   # This increaments (fsim1, fsim2, ...) based on how many simul
   ```bash
   $CHIPYARD_DIR/sims/firesim/sim/output/xilinx_alveo_u250/
 
-  ldd ./<Config_Name>/FireSim-xilinx_alveo_u250
+  ldd ./<Current_Config_Name>/FireSim-xilinx_alveo_u250 # example: ldd ./xilinx_alveo_u250-firesim-FireSim-FireSimRocketNLPrefetchWithAccuracy-WithPrintfSynthesis_BaseXilinxAlveoConfig/FireSim-xilinx_alveo_u250
   ```
   It should output a line like,
   ```
   libdwarf.so.1 => /home/user/miniforge3/lib/libdwarf.so.1
   ```
+  To make the change permenant, add the following to `$CHIPYARD_DIR/sims/firesim/sourceme-manager.sh`:
+
+  ```bash
+  # Path to make sure libdwarf.so.1 can be seen
+  export LD_LIBRARY_PATH=$HOME/miniforge3/lib:$LD_LIBRARY_PATH
+  ```
 
 <br>
 
-- **Current Infrasetup Error**
-  
+- **`br-base.img` not found**
   ```
   ================================ Standard error ================================
   rsync: [sender] link_stat "/home/dawud/chipyard/sims/firesim/deploy/workloads/linux-uniform/br-base.img" failed: No such file or directory (2)
@@ -353,6 +364,14 @@ screen -r fsim0   # This increaments (fsim1, fsim2, ...) based on how many simul
   ================================================================================
   Aborting.
   Fatal error: One or more hosts failed while executing task 'infrasetup_node_wrapper'
+  ```
+
+  FIX (from the [offical FireSim doc](https://docs.fires.im/en/latest/Getting-Started-Guides/On-Premises-FPGA-Getting-Started/Running-Simulations/Running-Single-Node-Simulation-Xilinx-Alveo-U250.html)):
+  ```bash
+  # assuming you already sourced sourceme-manager.sh from firesim directory:
+  cd $CHIPYARD_DIR/software/firemarshal
+  ./marshal -v build br-base.json
+  ./marshal -v install br-base.json
   ```
   
 -----
