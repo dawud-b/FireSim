@@ -82,11 +82,10 @@ cd ~/.ssh
 cat firesim.pem.pub >> authorized_keys
 chmod 0600 authorized_keys
 ```
-The steps till this point only need to be completed once.
+*The steps till this point only need to be completed once.*
 
 -----
-
-***The following steps need to be completed each time FireSim is used:***
+ **The following steps need to be completed each time FireSim is used:**
 
 ```bash
 cd ~/.ssh
@@ -121,7 +120,7 @@ These commands can be copied and pasted from the [Quick Commands](#quick-command
 > 
 > # check and fixup the known place where conda will put it
 >```
-> Make sure to place these lines after the `source` line but before the `if` check.
+> Make sure to place these lines *after* the `source` line but *before* the `if` check.
 
 
 -----
@@ -130,9 +129,14 @@ These commands can be copied and pasted from the [Quick Commands](#quick-command
 
 This section will go over how to set up files for firesim simulation.
 
-Ensure the Rocket Config that is being simulated is in `$CHIPYARD_DIR/generators/firechip/src/main/scala/TargetConfigs.scala`.
+-----
 
-If missing, create a new class with this format:
+#### TargetConfigs
+
+First, add the Rocket Config that is being simulated  into, 
+`$CHIPYARD_DIR/generators/firechip/src/main/scala/TargetConfigs.scala`.
+
+Within TargetConfigs, create a new class with this format:
 ```scala
 class FireSim<Config_Name> extends Config(
     new WithNIC ++
@@ -144,7 +148,9 @@ class FireSim<Config_Name> extends Config(
 ```
 > The <Config_Name> must match the class name in your config file.
 
------
+<br>
+
+#### Config Build Recipes
 
 Next add this config in `$CHIPYARD_DIR/sims/firesim/deploy/config_build_recipes.yaml`. 
 Make sure to change TargetConfigName to the correct TargetConfig class. 
@@ -153,7 +159,7 @@ Make sure to change TargetConfigName to the correct TargetConfig class.
 alveo_u250_firesim_TargetConfigName:   # Change based on fpga and TargetConfig class
     DESIGN: FireSim
     PLATFORM: xilinx_alveo_u250        # The fpga you want to run it on
-    PLATFORM_CONFIG: WithPrintfSynthesis_BaseXilinxAlveoConfig    # The underscore _ seperates multiple classes added to the processor
+    PLATFORM_CONFIG: BaseXilinxAlveoConfig    # An underscore seperates multiple classes added to the processor (e.g. WithPrintfSynthesis_BaseXilinxAlveoConfig).
     TARGET_CONFIG: TargetConfigName    # This should be the same name of the class just created in TargetConfigs.scala
     TARGET_PROJECT: firesim
     bit_builder_recipe: bit-builder-recipes/xilinx_alveo_u250.yaml  # u250 corresponds to the u250 fpga. Can change to u200 or u280 depending on which fpga is wanted.
@@ -165,7 +171,9 @@ alveo_u250_firesim_TargetConfigName:   # Change based on fpga and TargetConfig c
     post_build_hook: null
 ```
 
------
+<br>
+
+#### Config Builds
 
 Open `$CHIPYARD_DIR/sims/firesim/deploy/config_build.yaml` and add the config_build_recipe name under `builds_to_run:` as shown in the example below:
 
@@ -193,19 +201,21 @@ build_farm_hosts:
 - build_farm_host12
 default_build_dir: /home/user/chipyard/sims/firesim/builds # Change this based on your chipyard directory
 ```
+
 -----
 
 ### Running FireSim
 
-If you haven't sourced the firesim enviornment yet, finish the [Initailization](#initialization) steps now, or use the [Quick Commands](#quick-commands) to source FireSim. 
+If you haven't sourced the firesim enviornment yet, finish the [Initailization](#initialization) steps now, or use the [Quick Commands](#quick-commands) to source FireSim.
 
-<br>
+-----
 
 To build what was setup in the config files, run
 ```bash
 firesim buildbitstream
 ```
-
+> The config only needs to be built once. Unless another config was built after the one you're using now, skip to infrasetup step.
+>
 > If encountering errors look at the [known buildbitstream errors.](#build-bitstream-errors)
 
 After running this, a message will be output like the following:
@@ -244,6 +254,9 @@ firesim infrasetup
 This will copy the tar file and flash the fpga.
 
 > If encountering errors look at the [known infrasetup errors.](#infrasetup-errors)
+>
+
+<!-- Users need access to `sudo rmmod xdma` -->
 
 <br>
 
@@ -307,6 +320,16 @@ screen -r fsim0   # This increaments (fsim1, fsim2, ...) based on how many simul
 - **Cannot find file `create_db_2023.1.tcl`.**
   
   You did not add `create_db_2023.1.tcl`, `implementation_2023.1.tcl`, and `implementation_idr__2023.1.tcl` into `$CHIPYARD_DIR/sims/firesim/platforms/xilinx_avelo_u250/cl_firesim/scripts/`. See the [Initalization Steps](#initialization) for more info.
+
+<br>
+
+- **libdwarf File Not Found**
+  ```
+  [localhost] out: /home/dawud/miniforge3/bin/../lib/gcc/x86_64-conda-linux-gnu/15.1.0/../../../../x86_64-conda-linux-gnu/bin/ld: cannot find -l:libdwarf.so: No such file or directory
+  [localhost] out: collect2: error: ld returned 1 exit status
+  ```
+  > No Fix found yet.
+
 
 <br>
 
@@ -377,13 +400,23 @@ screen -r fsim0   # This increaments (fsim1, fsim2, ...) based on how many simul
 
   <br>
 
-- **Current Error: sudo**
+- **Timed Out Error Running sudo rmmod xdma**
   ```
   Fatal error: run() received nonzero return code 1 while executing!
   Requested: sudo rmmod xdma
   Executed: /bin/bash -l -c "sudo rmmod xdma"
   Aborting.
   ```
+  FIX: Requires passwordless sudo access for this command. Must have an admin give you permissions.
+
+<br>
+
+### Runworkload Errors
+
+- **Current Issue: Stuck on "Commencing Simulation"**
+  After runnning `firesim runworkload` the screen session will get stuck on "Commencing simulation" and won't show the openSBI splash screen.
+
+  > No fix found yet.
   
 -----
 
