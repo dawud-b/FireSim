@@ -324,6 +324,9 @@ screen -r fsim0   # This increaments (fsim1, fsim2, ...) based on how many simul
 <br>
 
 - **libdwarf File Not Found**
+
+  > This error occurs if you previously tried to do Infrasetup fix from libdwarf not found.
+
   ```
   [localhost] out: /home/dawud/miniforge3/bin/../lib/gcc/x86_64-conda-linux-gnu/15.1.0/../../../../x86_64-conda-linux-gnu/bin/ld: cannot find -l:libdwarf.so: No such file or directory
   [localhost] out: collect2: error: ld returned 1 exit status
@@ -348,19 +351,6 @@ screen -r fsim0   # This increaments (fsim1, fsim2, ...) based on how many simul
   [localhost] out: make: *** [make/driver.mk:44: /home/dawud/chipyard/sims/firesim/sim/output/xilinx_alveo_u250/xilinx_alveo_u250-firesim-FireSim-FireSimRocketNLPrefetchWithAccuracy-WithPrintfSynthesis_BaseXilinxAlveoConfig/FireSim-xilinx_alveo_u250] Error 2
   [localhost] out: error: run() received nonzero return code 2 while executing!
   ```
-  
-  Current Attempt: 
-  Edit the following lines within,
-  ```bash
-  $CHIPYARD_DIR/sims/firesim/sim/midas/src/main/cc/Makefile
-  ```
-  to
-  ```bash
-  override LDFLAGS += -L$(GEN_DIR) -lstdc++ -lpthread -lgmp -ldwarf
-
-  # Ensure Conda-installed libraries are in the link path
-  override LDFLAGS += -L/home/<user>/chipyard/.conda-env/lib -ldwarf # Set it to your own conda library path
-  ```
 
 <br>
 
@@ -382,9 +372,9 @@ screen -r fsim0   # This increaments (fsim1, fsim2, ...) based on how many simul
   After sourcing the FireSim enviornment, run these commands:
 
   <!-- # make sure libdwarf is installed
-  conda install -c conda-forge libdwarf=2.1.0 -->
+  conda install -c conda-forge libdwarf -->
 
-  > THIS FIX WORKS FOR INFRASETUP BUT MAY CAUSE FUTURE ISSUES WITH BUILD BITSTREAM.
+  > THIS FIX WORKS FOR INFRASETUP BUT MAY CAUSE FUTURE ISSUES WITH BUILDBITSTREAM.
 
   ```bash
   # Symlink libdwarf.so.1 into $HOME/miniforge3/lib:
