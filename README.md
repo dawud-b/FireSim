@@ -328,8 +328,39 @@ screen -r fsim0   # This increaments (fsim1, fsim2, ...) based on how many simul
   [localhost] out: /home/dawud/miniforge3/bin/../lib/gcc/x86_64-conda-linux-gnu/15.1.0/../../../../x86_64-conda-linux-gnu/bin/ld: cannot find -l:libdwarf.so: No such file or directory
   [localhost] out: collect2: error: ld returned 1 exit status
   ```
-  > No Fix found yet.
 
+  A linker error. Symbolic link is broken from `firesim infrasetup` error fix. To get rid of this error, relink `libdwarf.so` to `libdwarf.so.1`:
+
+  ```bash
+  cd /home/dawud/chipyard/.conda-env/lib
+  rm libdwarf.so
+  ln -s libdwarf.so.1 libdwarf.so
+  ```
+
+  However, this created a new error that I am still trying to fix:
+
+  ```
+  [localhost] out: /home/dawud/miniforge3/bin/../lib/gcc/x86_64-conda-linux-gnu/15.1.0/../../../../x86_64-conda-linux-gnu/bin/ld: /tmp/ccmqoY6i.o: in function `void dwarf_t::siblings<std::map<unsigned long, subroutine_t, std::less<unsigned long>, std::allocator<std::pair<unsigned long const, subroutine_t> > > >(std::unique_ptr<Dwarf_Die_s, dwarf_t::dwarf_deleter>, void (dwarf_t::*)(Dwarf_Die_s*, std::map<unsigned long, subroutine_t, std::less<unsigned long>, std::allocator<std::pair<unsigned long const, subroutine_t> > >&), std::map<unsigned long, subroutine_t, std::less<unsigned long>, std::allocator<std::pair<unsigned long const, subroutine_t> > >&)':
+  [localhost] out: /home/dawud/chipyard/sims/firesim/sim/firesim-lib/src/main/cc/bridges/tracerv/tracerv_dwarf.cc:95:(.text._ZN7dwarf_t11subroutinesERSt3mapIm12subroutine_tSt4lessImESaISt4pairIKmS1_EEE+0x13a): undefined reference to `dwarf_siblingof'
+  [localhost] out: collect2: error: ld returned 1 exit status
+  [localhost] out: make[1]: *** [Makefile:50: /home/dawud/chipyard/sims/firesim/sim/output/xilinx_alveo_u250/xilinx_alveo_u250-firesim-FireSim-FireSimRocketNLPrefetchWithAccuracy-WithPrintfSynthesis_BaseXilinxAlveoConfig/FireSim-xilinx_alveo_u250] Error 1
+  [localhost] out: make[1]: Leaving directory '/home/dawud/chipyard/sims/firesim/sim/midas/src/main/cc'
+  [localhost] out: make: *** [make/driver.mk:44: /home/dawud/chipyard/sims/firesim/sim/output/xilinx_alveo_u250/xilinx_alveo_u250-firesim-FireSim-FireSimRocketNLPrefetchWithAccuracy-WithPrintfSynthesis_BaseXilinxAlveoConfig/FireSim-xilinx_alveo_u250] Error 2
+  [localhost] out: error: run() received nonzero return code 2 while executing!
+  ```
+  
+  Current Attempt: 
+  Edit the following lines within,
+  ```bash
+  $CHIPYARD_DIR/sims/firesim/sim/midas/src/main/cc/Makefile
+  ```
+  to
+  ```bash
+  override LDFLAGS += -L$(GEN_DIR) -lstdc++ -lpthread -lgmp -ldwarf
+
+  # Ensure Conda-installed libraries are in the link path
+  override LDFLAGS += -L/home/<user>/chipyard/.conda-env/lib -ldwarf # Set it to your own conda library path
+  ```
 
 <br>
 
@@ -349,10 +380,13 @@ screen -r fsim0   # This increaments (fsim1, fsim2, ...) based on how many simul
 
   FIX:
   After sourcing the FireSim enviornment, run these commands:
-  ```bash
-  # make sure libdwarf is installed
-  conda install -c conda-forge libdwarf
 
+  <!-- # make sure libdwarf is installed
+  conda install -c conda-forge libdwarf=2.1.0 -->
+
+  > THIS FIX WORKS FOR INFRASETUP BUT MAY CAUSE FUTURE ISSUES WITH BUILD BITSTREAM.
+
+  ```bash
   # Symlink libdwarf.so.1 into $HOME/miniforge3/lib:
   mkdir -p $HOME/miniforge3/lib
   ln -sf $HOME/miniforge3/pkgs/libdwarf-0.0.0.20190110_28_ga81397fc4-h753d276_0/lib/libdwarf.so.1 $HOME/miniforge3/lib/libdwarf.so.1
