@@ -325,8 +325,6 @@ screen -r fsim0   # This increaments (fsim1, fsim2, ...) based on how many simul
 
 - **libdwarf File Not Found**
 
-  > This error occurs if you previously tried to do Infrasetup fix from libdwarf not found.
-
   ```
   [localhost] out: /home/dawud/miniforge3/bin/../lib/gcc/x86_64-conda-linux-gnu/15.1.0/../../../../x86_64-conda-linux-gnu/bin/ld: cannot find -l:libdwarf.so: No such file or directory
   [localhost] out: collect2: error: ld returned 1 exit status
@@ -339,17 +337,32 @@ screen -r fsim0   # This increaments (fsim1, fsim2, ...) based on how many simul
   rm libdwarf.so
   ln -s libdwarf.so.1 libdwarf.so
   ```
-
-  However, this created a new error that I am still trying to fix:
-
+  Check your libdwarf and libdwarf-dev version,
+  ```bash
+  conda list libdwarf
   ```
-  [localhost] out: /home/dawud/miniforge3/bin/../lib/gcc/x86_64-conda-linux-gnu/15.1.0/../../../../x86_64-conda-linux-gnu/bin/ld: /tmp/ccmqoY6i.o: in function `void dwarf_t::siblings<std::map<unsigned long, subroutine_t, std::less<unsigned long>, std::allocator<std::pair<unsigned long const, subroutine_t> > > >(std::unique_ptr<Dwarf_Die_s, dwarf_t::dwarf_deleter>, void (dwarf_t::*)(Dwarf_Die_s*, std::map<unsigned long, subroutine_t, std::less<unsigned long>, std::allocator<std::pair<unsigned long const, subroutine_t> > >&), std::map<unsigned long, subroutine_t, std::less<unsigned long>, std::allocator<std::pair<unsigned long const, subroutine_t> > >&)':
-  [localhost] out: /home/dawud/chipyard/sims/firesim/sim/firesim-lib/src/main/cc/bridges/tracerv/tracerv_dwarf.cc:95:(.text._ZN7dwarf_t11subroutinesERSt3mapIm12subroutine_tSt4lessImESaISt4pairIKmS1_EEE+0x13a): undefined reference to `dwarf_siblingof'
-  [localhost] out: collect2: error: ld returned 1 exit status
-  [localhost] out: make[1]: *** [Makefile:50: /home/dawud/chipyard/sims/firesim/sim/output/xilinx_alveo_u250/xilinx_alveo_u250-firesim-FireSim-FireSimRocketNLPrefetchWithAccuracy-WithPrintfSynthesis_BaseXilinxAlveoConfig/FireSim-xilinx_alveo_u250] Error 1
-  [localhost] out: make[1]: Leaving directory '/home/dawud/chipyard/sims/firesim/sim/midas/src/main/cc'
-  [localhost] out: make: *** [make/driver.mk:44: /home/dawud/chipyard/sims/firesim/sim/output/xilinx_alveo_u250/xilinx_alveo_u250-firesim-FireSim-FireSimRocketNLPrefetchWithAccuracy-WithPrintfSynthesis_BaseXilinxAlveoConfig/FireSim-xilinx_alveo_u250] Error 2
-  [localhost] out: error: run() received nonzero return code 2 while executing!
+  You should have these versions:
+  ```
+  libdwarf       0.0.0.20190110_28_ga81397fc4  h753d276_0    ucb-bar
+  libdwarf-dev   0.0.0.20190110_28_ga81397fc4  h753d276_0    ucb-bar
+  ```
+  If you do not continue to next error.
+
+<br>
+
+- **Wrong Version of libdwarf**
+  If you tried to reinstall libdwarf you will get many new issues. The required versions are:
+  ```
+  libdwarf       0.0.0.20190110_28_ga81397fc4  h753d276_0    ucb-bar
+  libdwarf-dev   0.0.0.20190110_28_ga81397fc4  h753d276_0    ucb-bar
+  ```
+  To reinstall the correct versions run this command:
+  ```bash
+  conda install -y -c ucb-bar libdwarf=0.0.0.20190110_28_ga81397fc4 libdwarf-dev=0.0.0.20190110_28_ga81397fc4 --force-reinstall
+  ```
+  Then make sure to link the path properly:
+  ```bash
+  export LD_LIBRARY_PATH=$CONDA_PREFIX/lib:$LD_LIBRARY_PATH
   ```
 
 <br>
@@ -368,13 +381,10 @@ screen -r fsim0   # This increaments (fsim1, fsim2, ...) based on how many simul
   AssertionError: libdwarf.so.1 has no linkage reported by ldd for ../sim/output//xilinx_alveo_u250/xilinx_alveo_u250-firesim-FireSim-F$
   ```
 
+  > Do not try reinstalling libdwarf using `conda install libdwarf`. You need to have the correct version that FireSim requires. If you need to reinstall the correct version look at **Wrong Version of libdwarf** section within [Buildbitstream Errors](#buildbitstream-errors).
+
   FIX:
   After sourcing the FireSim enviornment, run these commands:
-
-  <!-- # make sure libdwarf is installed
-  conda install -c conda-forge libdwarf -->
-
-  > THIS FIX WORKS FOR INFRASETUP BUT MAY CAUSE FUTURE ISSUES WITH BUILDBITSTREAM.
 
   ```bash
   # Symlink libdwarf.so.1 into $HOME/miniforge3/lib:
