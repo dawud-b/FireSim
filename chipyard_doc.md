@@ -266,6 +266,11 @@ Running will create a screen session to go into:
 ```bash
 screen -r fsim0   # This increaments (fsim1, fsim2, ...) based on how many simulations are running.
 ```
+> Note: You must be in base environment to reattach to the screen session. Easiest way is to just open a new terminal session. Ctrl-c on runworkload terminal will exit out of it but it will keep running in the background. Run `firesim kill` to end all work.
+
+<br>
+
+Once Linux boots you will see a login prompt. Use username `root` and you will enter. Now you can run programs for testing. When finished run `poweroff -f` to exit. 
 
 -----
 
@@ -447,10 +452,15 @@ screen -r fsim0   # This increaments (fsim1, fsim2, ...) based on how many simul
 
 ### Runworkload Errors
 
-- **Current Issue: Stuck on "Commencing Simulation"**
+- **Stuck on "Commencing Simulation"**
   After runnning `firesim runworkload` the screen session will get stuck on "Commencing simulation" and won't show the openSBI splash screen.
 
-  > No fix found yet.
+  This means theres something wrong with your config. I don't have an exact reason yet but here are somethings it could be:
+  - WithNIC in TargetConfigs.scala
+  - Cache size too large in RocketConfigs.scala
+  - Prefeter chisel design
+  
+<br>
   
 -----
 
