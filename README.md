@@ -54,7 +54,7 @@ More information on [the Chipyeard documentation](https://chipyard.readthedocs.i
 
 ### Initialization
 
-This section will go over how to setup firesim.
+This section will go over how to setup Firesim.
 
 _If you are not added to the firesim Linux group, ask to be added._
 
@@ -94,7 +94,7 @@ source AGENT_VARS
 ssh-add firesim.pem
 ```
 
-Enter the FireSim directory and source the FireSim enviornment:
+Enter the FireSim directory and source the FireSim environment:
 ```bash
 cd $CHIPYARD_DIR/sims/firesim
 source sourceme-manager.sh --skip-ssh-setup
@@ -104,7 +104,7 @@ These commands can be copied and pasted from the [Quick Commands](#quick-command
 
 <br>
 
-> If you recive this warning,
+> If you receive this warning,
 > ```
 > CONDA_BACKUP_CPPFLAGS=-DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /home/user/miniforge3/include -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /home/user/miniforge3/include
 > ::WARNING:: you still seem to have -DNDEBUG in your environment. This is known to cause problems.
@@ -127,7 +127,7 @@ These commands can be copied and pasted from the [Quick Commands](#quick-command
 
 ### Config Setup
 
-This section will go over how to set up files for firesim simulation.
+This section will go over how to set up files for Firesim.
 
 -----
 
@@ -206,7 +206,7 @@ default_build_dir: /home/user/chipyard/sims/firesim/builds # Change this based o
 
 ### Running FireSim
 
-If you haven't sourced the firesim enviornment yet, finish the [Initailization](#initialization) steps now, or use the [Quick Commands](#quick-commands) to source FireSim.
+If you haven't sourced the Firesim environment yet, finish the [Initialization](#initialization) steps now, or use the [Quick Commands](#quick-commands) to source FireSim.
 
 -----
 
