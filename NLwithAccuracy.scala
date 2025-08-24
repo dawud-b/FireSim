@@ -8,12 +8,12 @@ import freechips.rocketchip.util._
 import freechips.rocketchip.tilelink._
 import freechips.rocketchip.subsystem.{CacheBlockBytes}
 
-case class NLPrefetcherParams() extends CanInstantiatePrefetcher {
+case class NLPrefetcherAccuracyParams() extends CanInstantiatePrefetcher {
   def desc() = "Custom Next-Line Prefetcher"
-  def instantiate()(implicit p: Parameters) = Module(new NLPrefetcher(this)(p))
+  def instantiate()(implicit p: Parameters) = Module(new NLPrefetcherAccuracy(this)(p))
 }
 
-class NLPrefetcher(params: NLPrefetcherParams)(implicit p: Parameters) extends AbstractPrefetcher()(p) {
+class NLPrefetcherAccuracy(params: NLPrefetcherAccuracyParams)(implicit p: Parameters) extends AbstractPrefetcher()(p) {
   // things I need to set
   val valid = RegInit(false.B) 
   val write = RegInit(false.B)
