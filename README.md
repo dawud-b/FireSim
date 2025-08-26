@@ -214,7 +214,7 @@ To build what was setup in the config files, run
 ```bash
 firesim buildbitstream
 ```
-> The config only needs to be built once. Unless another config was built after the one you're using now, skip to infrasetup step.
+> This will usually run for well over 30 minutes with a new config. The config only needs to be built once unless its changed. If your using a config that was already built, skip this step.
 >
 > If encountering errors look at the [known buildbitstream errors.](#build-bitstream-errors)
 
@@ -229,9 +229,6 @@ alveo_u250_firesim_TargetConfigName:
 to your config_hwdb.yaml to use this hardware configuration.
 ```
 As it says, paste these lines into `$CHIPYARD_DIR/sims/firesim/deploy/config_hwdb.yaml` 
-(Only the lines between "Add" and "to your ...").
-
-<!-- `agfi` will be used if running on Amazon cloud servers. -->
 
 -----
 
@@ -245,14 +242,18 @@ target _config:
 `workload_name:` is used to switch between linux or bare-metal. 
 Most of the time leave as `linux-uniform.json`.
 
+<!-- `agfi` will be used if running on Amazon cloud servers. -->
+
 -----
 
 Now run
 ```bash
 firesim infrasetup
 ```
-This will copy the tar file and flash the fpga.
+This will copy the tar file that was just pasted in `config_runtime.yaml` and flash the fpga.
 
+> Usually takes about 15 minutes to run.
+> 
 > If encountering errors look at the [known infrasetup errors.](#infrasetup-errors)
 >
 
@@ -266,11 +267,11 @@ Running will create a screen session to go into:
 ```bash
 screen -r fsim0   # This increaments (fsim1, fsim2, ...) based on how many simulations are running.
 ```
-> Note: You must be in base environment to reattach to the screen session. Easiest way is to just open a new terminal session. Ctrl-c on runworkload terminal will exit out of it but it will keep running in the background. Run `firesim kill` to end all work.
+> Note: You must be in base environment to reattach to the screen session. Easiest way is to just open a new terminal session. Ctrl-c on runworkload terminal will exit out of it but it will keep running in the background. Ctrl-a, k will kill the screen session. Run `firesim kill` to end all work.
 
-<br>
+Once Linux boots you will see a login prompt. Use username `root` and you will enter. Now you can run programs for testing. When finished run `poweroff -f` to exit.
 
-Once Linux boots you will see a login prompt. Use username `root` and you will enter. Now you can run programs for testing. When finished run `poweroff -f` to exit. 
+> More information on testing will be added in the future. 
 
 -----
 
@@ -459,6 +460,10 @@ Once Linux boots you will see a login prompt. Use username `root` and you will e
   - WithNIC in TargetConfigs.scala
   - Cache size too large in RocketConfigs.scala
   - Prefeter chisel design
+
+  Current Progress: Using the NL prefetcher in each config. 
+  - With and without accuracy both have this issue
+  - Changing the chache size: 
   
 <br>
   
