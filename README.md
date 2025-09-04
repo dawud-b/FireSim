@@ -129,7 +129,6 @@ These commands can be copied and pasted from the [Quick Commands](#quick-command
 
 This section will go over how to set up files for Firesim.
 
------
 
 #### TargetConfigs
 
@@ -186,7 +185,7 @@ Under the `build_farm_hosts:` section lists the various hosts. The following hos
 ```yaml
 build_farm_hosts:
 - localhost         # The number of hosts needed is equal to number of builds under builds_to_run:
-- build farm host0
+- build_farm_host0
 - build_farm_host1
 - build_farm_host2
 - build_farm_host3
@@ -201,6 +200,7 @@ build_farm_hosts:
 - build_farm_host12
 default_build_dir: /home/user/chipyard/sims/firesim/builds # Change this based on your chipyard directory
 ```
+> Most likely you will only run one build to start so just add localhost.
 
 -----
 
@@ -228,7 +228,7 @@ alveo_u250_firesim_TargetConfigName:
   
 to your config_hwdb.yaml to use this hardware configuration.
 ```
-As it says, paste these lines into `$CHIPYARD_DIR/sims/firesim/deploy/config_hwdb.yaml` 
+As it says, copy and paste these lines into `$CHIPYARD_DIR/sims/firesim/deploy/config_hwdb.yaml` 
 
 -----
 
@@ -236,7 +236,8 @@ Go to `$CHIPYARD_DIR/sims/firesim/deploy/config_runtime.yaml` and change the `de
 
 ```yaml
 target _config:
-  default_hw_config: alveo_u250_firesim_TargetConfigName # or whatever you added to config_hwdb.yaml.
+  default_hw_config: alveo_u250_firesim_TargetConfigName
+  # This name should match a config name in config_hwdb.ymal.
 ```
 
 `workload_name:` is used to switch between linux or bare-metal. 
@@ -456,14 +457,7 @@ Once Linux boots you will see a login prompt. Use username `root` and you will e
 - **Stuck on "Commencing Simulation"**
   After runnning `firesim runworkload` the screen session will get stuck on "Commencing simulation" and won't show the openSBI splash screen.
 
-  This means theres something wrong with your config. I don't have an exact reason yet but here are somethings it could be:
-  - WithNIC in TargetConfigs.scala
-  - Cache size too large in RocketConfigs.scala
-  - Prefeter chisel design
-
-  Current Progress: Using the NL prefetcher in each config. 
-  - With and without accuracy both have this issue
-  - Changing the chache size: 
+  This means theres something wrong with your config. I don't have an exact reason yet.
   
 <br>
   
@@ -484,5 +478,17 @@ cd $CHIPYARD_DIR/sims/firesim
 source sourceme-manager.sh --skip-ssh-setup
 ```
 
+-----
+<!-- If you help edit this doc, add your name! -->
+**Author:**
+Dawud Benedict
+
+
+<!-- TODO: 
+Baremetal
+Benchmarks
+Fix Issue with Stall
+Other Firesim/Chipyard Config Issues
+-->
 
 
