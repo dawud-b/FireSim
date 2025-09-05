@@ -215,7 +215,6 @@ To build what was setup in the config files, run
 firesim buildbitstream
 ```
 > This will usually run for well over 30 minutes with a new config. The config only needs to be built once unless its changed. If your using a config that was already built, skip this step.
->
 > If encountering errors look at the [known buildbitstream errors.](#build-bitstream-errors)
 
 After running this, a message will be output like the following:
@@ -245,20 +244,31 @@ Most of the time leave as `linux-uniform.json`.
 
 <!-- `agfi` will be used if running on Amazon cloud servers. -->
 
+<br>
+
+Within the same file, ensure that `default_simulation_dir:` has the correct path. It is recommended to create and change it to a directory in tmp:
+```yaml
+default_simulation_dir: /tmp/<FIRESIM_DIR_NAME>
+```
+
 -----
 
-Now run
+Now run,
 ```bash
 firesim infrasetup
 ```
 This will copy the tar file that was just pasted in `config_runtime.yaml` and flash the fpga.
 
 > Usually takes about 15 minutes to run.
-> 
 > If encountering errors look at the [known infrasetup errors.](#infrasetup-errors)
 >
 
 <!-- Users need access to `sudo rmmod xdma` -->
+
+<br>
+
+After that completes, we must replace the Linux image in your default simulation directory. Save the `linux-uniform0-br-base.img` from the GitHub, and copy it into `/tmp/<FIRESIM_DIR_NAME>/`. This image contains the embench benchmarks in `/root/`.
+> This needs to be done each time `firesim infrasetup` is ran. Save `linux-uniform0-br-base.img` somewhere it can be easily used in the future, like `$CHIPYARD_DIR/`.
 
 <br>
 
@@ -268,9 +278,15 @@ Running will create a screen session to go into:
 ```bash
 screen -r fsim0   # This increaments (fsim1, fsim2, ...) based on how many simulations are running.
 ```
-> Note: You must be in base environment to reattach to the screen session. Easiest way is to just open a new terminal session. Ctrl-c on runworkload terminal will exit out of it but it will keep running in the background. Ctrl-a, k will kill the screen session. Run `firesim kill` to end all work.
+> Note: You must be in base environment to reattach to the screen session. Easiest way is to just open a new terminal session. Ctrl-c on runworkload terminal will exit out of it but it will keep running in the background. Ctrl-a, k will kill the screen session.
 
-Once Linux boots you will see a login prompt. Use username `root` and you will enter. Now you can run programs for testing. When finished run `poweroff -f` to exit.
+Once Linux boots you will see a login prompt. Use username `root` and you will enter. Now you can run programs for testing. Binaries should be in `/root/` if you copied the image in the GitHub repo. Then you can run,
+```bash
+/root/<binary>
+```
+When finished run `poweroff -f` to exit.
+
+Run `firesim kill` to end simulation!!!!
 
 > More information on testing will be added in the future. 
 
@@ -476,6 +492,23 @@ ssh-add firesim.pem
 ```bash
 cd $CHIPYARD_DIR/sims/firesim
 source sourceme-manager.sh --skip-ssh-setup
+```
+
+<br>
+
+**Linux Infrasetup and Boot**
+```bash
+firesim infrasetup
+```
+```bash
+cp $CHIPYARD_DIR/linux-uniform0-br-base.img /tmp/FIRESIM_DAWUD_DIR/sim_slot_0/linux-uniform0-br-base.img
+```
+```bash
+firesim boot
+```
+```bash
+# from a new terminal
+screen -r fsim0
 ```
 
 -----
