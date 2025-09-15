@@ -1,10 +1,30 @@
 # Chipyard and FireSim
 -----
+## Setup
+
+First setup Chipyard using the [Chipyard Setup Docs](https://chipyard.readthedocs.io/en/1.10.0/Chipyard-Basics/Initial-Repo-Setup.html) (We've been using version 1.10.0).
+
 Set a Chipyard path for eaiser copy and paste later on:
 ```bash
 export CHIPYARD_DIR=~/chipyard  # or wherever you cloned the Chipyard repo
 ```
 This sets the `$CHIPYARD_DIR` environment variable to your Chipyard root directory.
+
+Once conda is installed environment is activated, ensure g++ is installed:
+```bash
+conda install gxx
+```
+Then you can continue to build Chipyard:
+```bash
+$CHIPYARD_DIR/build-setup.sh riscv-tools
+```
+
+Once this finishes source Chipyard's environment, enter the Firesim directory, and run Firesim's build script.
+```bash
+source $CHIPYARD_DIR/env.sh
+cd $CHIPYARD_DIR/sims/firesim
+./build-setup.sh
+```
 
 ---
 
