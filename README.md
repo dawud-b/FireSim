@@ -2,7 +2,13 @@
 -----
 ## Setup
 
-First setup Chipyard using the [Chipyard Setup Docs](https://chipyard.readthedocs.io/en/1.10.0/Chipyard-Basics/Initial-Repo-Setup.html) (We've been using version 1.10.0).
+First clone the Chipyard git repo using the [Chipyard Setup Docs](https://chipyard.readthedocs.io/en/1.10.0/Chipyard-Basics/Initial-Repo-Setup.html) (We've been using version 1.10.0).
+
+The `$RISCV` path must be set first:
+```bash
+echo 'export RISCV=$HOME/chipyard/.conda-env/riscv-tools' >> ~/.bashrc
+source ~/.bashrc
+```
 
 Set a Chipyard path for eaiser copy and paste later on:
 ```bash
@@ -10,21 +16,28 @@ export CHIPYARD_DIR=~/chipyard  # or wherever you cloned the Chipyard repo
 ```
 This sets the `$CHIPYARD_DIR` environment variable to your Chipyard root directory.
 
-Once conda is installed environment is activated, ensure g++ is installed:
+Once conda is installed environment is activated, ensure g++, conda-lock, and ctags libraries are installed:
 ```bash
-conda install gxx
-```
-Then you can continue to build Chipyard:
-```bash
-$CHIPYARD_DIR/build-setup.sh riscv-tools
+conda activate base
+conda install -c conda-forge gxx
+conda install -n base conda-lock=1.4
+conda install -n base ctags
+conda activate base
 ```
 
-Once this finishes source Chipyard's environment, enter the Firesim directory, and run Firesim's build script.
+Then you can continue to build Chipyard:
+```bash
+cd $CHIPYARD_DIR
+./build-setup.sh riscv-tools
+```
+
+<!-- Once this finishes source Chipyard's environment, enter the Firesim directory, and run Firesim's build script.
 ```bash
 source $CHIPYARD_DIR/env.sh
 cd $CHIPYARD_DIR/sims/firesim
 ./build-setup.sh
-```
+``` -->
+Now your Chipayrd and Firesim repos are setup. Continue to learn about baremetal and RTL simulations on Chipyard, or skip to the [Firesim section](#firesim).
 
 ---
 
@@ -149,6 +162,15 @@ These commands can be copied and pasted from the [Quick Commands](#quick-command
 
 This section will go over how to set up files for Firesim.
 
+If no configs have been setup yet (a new Firesim install) run the following command to get the config files,
+```bash
+firesim managerinit --platform xilinx_alveo_u250
+```
+More information on the [Firesim docs](https://docs.fires.im/en/latest/Getting-Started-Guides/On-Premises-FPGA-Getting-Started/Repo-Setup/Xilinx-Alveo-U250.html).
+
+> This command and the following tutorials only go over the Xilinx-Alveo-U250 FPGA.
+
+<br>
 
 #### TargetConfigs
 
@@ -309,6 +331,37 @@ When finished run `poweroff -f` to exit.
 Run `firesim kill` to end simulation!!!!
 
 > More information on testing will be added in the future. 
+
+-----
+#### Embench
+
+Copy the `embench` directory into `$CHIPYARD_DIR`. Enter that directory, run both the git patches, and run the build script:
+```bash
+cd $CHIPYARD_DIR/embench
+git apply 01-build.patch
+git apply 02-embench-iot.patch
+./build.sh
+```
+This should create the benchmark binaries in `$CHIPYARD_DIR/embench/build`.
+
+Mounting:
+Go into your runs build (shown after `default_simulation_dir:` in `config_runtime.yaml`) and enter the `sim_slot_0` directory.
+```bash
+sudo mount linux-uniform0-br-base.img
+cd ./mountpoint
+```
+Then copy the binaries into the `/root` directory of the image:
+```bash
+sudo cp -r $CHIPYARD_DIR/embench/build ./root/
+```
+Then unmount,
+```bash
+cd ..
+sudo umount ./mountpoint
+```
+> This requires sudo priledges. If you do not have sudo access, you could probably just copy it from someone elses directory. 
+
+
 
 -----
 
@@ -485,6 +538,25 @@ Run `firesim kill` to end simulation!!!!
   Aborting.
   ```
   FIX: Requires passwordless sudo access for this command. Must have an admin give you permissions.
+
+<br>
+
+- **No rule to make target $CHIPYARD_DIR/firesim/.conda-env/riscv-tools/lib/libfesvr.a**
+  
+  The issue is libfesvr does not exist in your firesim enviornment. Check your `$RISCV` path (while you sourced firesim). To fix this make a symlink from chipyards tools to firesim.
+  ```bash
+  ln -s $CHIPYARD_DIR/.conda-env/riscv-tools/lib/libfesvr.a $CHIPYARD_DIR/sims/firesim/.conda-env/riscv-tools/lib/libfesvr.a
+  ```
+  Try running `firesim infrasetup` again. If receiving another error this try installing `riscv-isa-sim`:
+  ```bash
+  cd $RISCV # make sure this is set to $CHIPYARD_DIR/sims/firesim/.conda-env/riscv-tools
+  git clone --recursive https://github.com/riscv/riscv-isa-sim.git
+  cd riscv-isa-sim
+  mkdir -p build && cd build
+  ../configure --prefix=$RISCV
+  make -j$(nproc)
+  make install
+  ```
 
 <br>
 
