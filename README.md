@@ -31,12 +31,12 @@ cd $CHIPYARD_DIR
 ./build-setup.sh riscv-tools
 ```
 
-<!-- Once this finishes source Chipyard's environment, enter the Firesim directory, and run Firesim's build script.
+Once this finishes source Chipyard's environment, enter the Firesim directory, and run Firesim's build script.
 ```bash
 source $CHIPYARD_DIR/env.sh
 cd $CHIPYARD_DIR/sims/firesim
 ./build-setup.sh
-``` -->
+```
 Now your Chipayrd and Firesim repos are setup. Continue to learn about baremetal and RTL simulations on Chipyard, or skip to the [Firesim section](#firesim).
 
 ---
@@ -174,8 +174,10 @@ More information on the [Firesim docs](https://docs.fires.im/en/latest/Getting-S
 
 #### TargetConfigs
 
-First, add the Rocket Config that is being simulated  into, 
-`$CHIPYARD_DIR/generators/firechip/src/main/scala/TargetConfigs.scala`.
+First, add the Rocket Config that is being simulated into, 
+```
+$CHIPYARD_DIR/sims/firesim/target-design/chipyard/generators/firechip/src/main/scala/TargetConfigs.scala
+```
 
 Within TargetConfigs, create a new class with this format:
 ```scala
@@ -398,13 +400,11 @@ sudo umount ./mountpoint
   Then check that the version is returned by running these commands:
   
   ```bash
-  echo 'source ~/.bashrc' >> ~/.bash_profile
-
   source ~/.bashrc
 
-  ssh localhost which vivado # a path should be returned
+  which vivado # a path should be returned
   ```
-  Now source the firesim enviornment again:
+  Now source the Firesim enviornment again:
   ```bash
   cd $CHIPYARD_DIR/sims/firesim
   source sourceme-manager.sh --skip-ssh-setup
